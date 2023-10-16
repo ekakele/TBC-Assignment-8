@@ -4,13 +4,13 @@
 
 //4-StationModule-ი With properties: moduleName: String და drone: Drone? (optional). Method რომელიც დრონს მისცემს თასქს.
 
-class StationModule {
-    fileprivate let moduleName: String
-    fileprivate var drone: Drone?
+fileprivate class StationModule {
+    let moduleName: String
+    var drone: Drone?
     
-    fileprivate init(moduleName: String) { self.moduleName = moduleName }
+    init(moduleName: String) { self.moduleName = moduleName }
     
-    fileprivate func assignTask(task: String) {
+    func assignTask(task: String) {
         if drone?.task == nil {
             drone?.task = task
         }
@@ -20,7 +20,7 @@ class StationModule {
 
 //1.ControlCenter-ი. With properties: isLockedDown: Bool და securityCode: String, რომელშიც იქნება რაღაც პაროლი შენახული. Method lockdown, რომელიც მიიღებს პაროლს, ჩვენ დავადარებთ ამ პაროლს securityCode-ს და თუ დაემთხვა გავაკეთებთ lockdown-ს. Method-ი რომელიც დაგვიბეჭდავს ინფორმაციას lockdown-ის ქვეშ ხომ არაა ჩვენი ControlCenter-ი.
 
-class ControlCenter: StationModule {
+fileprivate class ControlCenter: StationModule {
     private var isLockedDown = true
     private let securityCode = "JfkT_595"
     
@@ -28,7 +28,7 @@ class ControlCenter: StationModule {
         super.init(moduleName: moduleName)
     }
     
-    fileprivate func lockdown(password: String) {
+    func lockdown(password: String) {
         if password == securityCode {
             isLockedDown = true
             print("Correct password entered.")
@@ -38,7 +38,7 @@ class ControlCenter: StationModule {
         }
     }
     
-    fileprivate func lockdownStatus() {
+    func lockdownStatus() {
         if isLockedDown == true {
             print("The Control Center is under lockdown.")
         } else {
@@ -50,10 +50,10 @@ class ControlCenter: StationModule {
 
 //2-ResearchLab-ი. With properties: String Array - ნიმუშების შესანახად. Method რომელიც მოიპოვებს(დაამატებს) ნიმუშებს ჩვენს Array-ში.
 
-class ResearchLab: StationModule {
+fileprivate class ResearchLab: StationModule {
     private var samples: [String]
     
-    fileprivate init(moduleName: String, samples: [String]) {
+    init(moduleName: String, samples: [String]) {
         self.samples = samples
         super.init(moduleName: moduleName)
     }
@@ -66,15 +66,15 @@ class ResearchLab: StationModule {
 
 //3-LifeSupportSystem-ა. With properties: oxygenLevel: Int, რომელიც გააკონტროლებს ჟანგბადის დონეს. Method რომელიც გვეტყვის ჟანგბადის სტატუსზე.
 
-class LifeSupportSystem: StationModule {
+fileprivate class LifeSupportSystem: StationModule {
     private var oxygenLevel: Int
     
-    fileprivate init(moduleName: String, oxygenLevel: Int) {
+    init(moduleName: String, oxygenLevel: Int) {
         self.oxygenLevel = oxygenLevel
         super.init(moduleName: moduleName)
     }
     
-    fileprivate func oxygenLevelStatus() {
+    func oxygenLevelStatus() {
         print("The current oxygen level is: \(oxygenLevel).")
     }
 }
@@ -169,9 +169,9 @@ class MissionControl {
 //9-და ბოლოს შევქმნათ OrbitronSpaceStation, შევქმნათ MissionControl-ი, missionControl-ი დავაკავშიროთ OrbitronSpaceStation სისტემასთან, როცა კავშირი შედგება missionControl-ით მოვითხოვოთ controlCenter-ის status-ი. controlCenter-ის, researchLab-ის და lifeSupport-ის მოდულების დრონებს დავურიგოთ თასქები. შევამოწმოთ დრონების სტატუსები. შევამოწმოთ ჟანგბადის რაოდენობა. შევამოწმოთ ლოქდაუნის ფუნქციონალი და შევამოწმოთ დაილოქა თუ არა ხომალდი სწორი პაროლი შევიყვანეთ თუ არა.
 
 //creating station module objects
-let controlCenter = ControlCenter(moduleName: "controlCenter")
-let researchLab = ResearchLab(moduleName: "researchLab", samples: ["Air", "Soil"])
-let lifeSupportSystem = LifeSupportSystem(moduleName: "lifeSupportSystem", oxygenLevel: 21)
+private let controlCenter = ControlCenter(moduleName: "controlCenter")
+private let researchLab = ResearchLab(moduleName: "researchLab", samples: ["Air", "Soil"])
+private let lifeSupportSystem = LifeSupportSystem(moduleName: "lifeSupportSystem", oxygenLevel: 21)
 
 //creating Orbitron station objects
 let orbitronSpaceStation = OrbitronSpaceStation(
@@ -213,9 +213,3 @@ orbitronSpaceStation.lockdownCS(passcode: "JfkT_595") //correct password
 
 //check lockdown status
 missionControl.requestControlCenterStatus()
-
-
-
-//controlCenter.lockdown(password: "JfkT_595") //correct password
-//controlCenter.lockdownStatus()
-
